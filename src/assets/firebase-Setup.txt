@@ -1,0 +1,370 @@
+# Using Firebase & setup
+************************
+  Firebase is a Backend-as-a-Service (BaaS) platform that provides various tools and services for building and managing web and mobile applications.
+
+documentation link: https://firebase.google.com/docs
+
+Additional info about firebase:
+  https://www.geeksforgeeks.org/what-is-firebase/
+
+ After getting some info about firebase know you can create account using gmail with firebase and get started.
+ link: https://firebase.google.com/
+
+1. steps to connect firebase with your project:
+ - Click on get started then click on create a project 
+ - click on create a project
+ - enter your project name and click on continue
+ - make off google Analytics & click on continue
+ - click on  web app 
+ - give your app nickname and click on register app
+ - install firebase in your project (npm install firebase )
+ - initialize firebase (copy initialize code given for your project and paste in to your project and add necessary setup)
+
+2. important setup 
+  To setup updated (current) firebase use this link
+ (time to time setup will changed with version)
+ link: https://firebase.google.com/docs/web/setup  
+
+3. Enabling Authentication setup
+   - go to Build & then click on Authentication
+   - click on get started
+   - click on Email/Password
+   - on Enable button for email/password 
+   - click on save & you done!
+4. Building Auth page UI
+ -we can build sign in and sign-out page as we want. 
+ steps
+ - by using hooks (useState) we can manage/update  sign in and sign out.
+ - all input of form must be controlled input (i.e user data stored in state)
+   i.e  onChange={(e) => setEmail(e.target.value)}
+        value={email}
+5. Authentication Functionality
+ - import  Auth method from firebase
+   eg:
+   - import { auth } from "../../utility/firebase"
+   - import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+ - create function that handles user Authentication (sing in and create)
+ - fire this function on submit the form or onClick on the button
+ - create account by filling form and submit
+ - after you submitted  you can see users data in firebase console under Authentication  
+6. Sign out, loading and error handling
+ - add some  loading method, error handling,and get user data using useContext and useReducer
+ - to handle error we can install and use react-toastify packages from npm and use it's method view error in modified way. 
+ for more info:
+ link: https://www.npmjs.com/package/react-toastify
+ steps
+ - npm i react-toastify
+ - import {ToastContainer} from "react-toastify" and 
+ - import "react-toastify/dist/ReactToastify.css" 
+    in app.jsx
+ - import { toast } from "react-toastify" in react components
+  where we want to implement toast functionality 
+  eg: catch (error) {
+      toast.error(error);
+      }
+ - under header part add sign out functionality 
+ - under app.jsx add the functionality of capturing user data globally when the page re-render or when user signed-out 
+7. stripe set up 
+  link: https://stripe.com/
+  doc-    https://docs.stripe.com/api
+what is stripe ?
+ Stripe is a payment processing platform that allows businesses to accept a variety of payment methods, including:
+  Credit cards, such as Visa, Mastercard, etc,  
+  Debit cards 
+  Mobile wallets 
+  Buy now, pay later services 
+  Bank transfers
+ Features of Stripe:
+ 1.API: 
+  Stripe open API and developer tools allow businesses  to customize the payment experience to fit their brand and needs. 
+ 2.Encryption
+  Stripe uses AES-256, an encryption standard that's considered one of the most robust in the world. 
+ 3.Global coverage
+  Stripe offers access to over 100 payment methods used by buyers around the world. 
+ 4.Real-time payments
+  Stripe offers real-time payments and bank debits to lower transaction costs. 
+ 5.Dynamically surfaced payment methods
+  Stripe can dynamically surface the most relevant payment methods for each customer. 
+ Stripe is best suited for businesses that make most of their sales online.
+
+steps
+ - First create account with stripe to integrate payment get
+ - After create account verify your email and sign in
+ - make sure you are on test mode 
+ - click on developers to generate API key
+    - overview 
+    - Manage API key
+ - generate secret key by clicking on Reveal test key
+ - to integrate stripe with our project we gonna use these API key.
+ - we use in front-end as well as back end integration using API key
+
+ secret-api-key = To integrate stripe with backend development using this key
+    
+ public-api-key = for front end development
+
+8. installing firebase tools CLI
+ to create back-end server using function service of firebase
+ - this is used to run backend code
+ - to deploy our project 
+ - using command line (terminal ) to integrate backend functionality of firebase using function service
+ eg: firebase-tools: like
+  - firebase init
+  - firebase deploy
+steps
+on terminal run:  
+ npm install -g firebase-tools 
+ then check by typing: 
+ firebase --version   
+   v- 13.25.0 
+links for more info:
+  https://www.npmjs.com/package/firebase-tools
+  https://firebase.google.com/docs/cli/
+  https://github.com/firebase/firebase-tools/releases
+  https://firebase.google.com/support/release-notes/cli
+If some problem happens using firebase-tools, use the following steps to solve problem:
+ npm list -g
+ on window start menu search  - env
+ go to Edit environmental variables
+    - system property
+    - Environmental variables
+    - double click on path 
+      check if the path is exist done
+    - if not exist click on new 
+    - add the path & ok ok ok
+      eg. path:  
+        C:\Users\kebed\AppData\Roaming\npm
+    - finally refresh by closing terminal or Vscode page
+9. Setting up backend paymentAPI using Firebase function
+steps
+ on terminal run:
+  -firebase login 
+    follow steps: 
+    yes then choice your sign in gmail  -allow 
+      - you will see success message. done!
+  -firebase init
+    -yes
+    - using arrow tab  choice functions & click on space tab and then enter
+    - click on existing project
+    - select your project and enter
+    - choice javascript and enter
+    - no and then enter
+    - yes and then enter wait until finish installing 
+    - after installing finished check your project:  
+      function folder will created with node_modules,... done!
+  Installing express and integrate with firebase
+  steps
+   - cd function
+   - npm i express cors stripe  dotenv 
+   - open package.json under function & check installed dependencies & scripts you are gonna use when you run your server (firebase emulators)
+  After configuring your server run:
+    - npm run serve
+    - copy http function initialized url & open in browser
+    -done! your backend is working
+Install Thunder Client Vscode extension to test server request & response 
+steps
+ - click on Vscode Extension tab
+    write on search extension: 
+    - Thunder Client
+or you can use link below
+ Link: 
+   https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client
+usage: 
+ - click on installed thunder Client
+ - click on New Request 
+ - choice Req. method..like GET, POST...
+ - copy your server url and paste to the default url found there
+ - click on send
+ - then you can see the response 
+10. Backend server configuration using firebase function
+steps
+  create .env and save api-key 
+  under Function folder open index.js and configure server
+   - clean all the commented code inside index.js 
+   - you will left within only two line of code and add code shown below to configure server (or follow video)
+        const express = require("express");
+        const cors = require("cors");
+        const dotenv = require("dotenv").config();
+        const stripe = require("stripe")(process.env.STRIPE_KEY);
+
+        const app = express();
+        app.use(cors({ origin: true }));
+
+        app.use(express.json());
+
+        app.get("/", (req, res) => {
+          res.status(200).json({
+            message: "Success!",
+          });
+        });
+
+        app.post("/payment/create", async (req, res) => {
+          const total = req.query.total;
+          if (total > 0) {
+            const paymentIntent = await stripe.paymentIntents.create({
+              amount: total,
+              currency: "usd",
+            });
+            console.log(paymentIntent);
+            res.status(201).json({
+              clientSecret: paymentIntent.client_secret,
+            });
+          } else {
+            res.status(403).json({
+              message: "total must be greater than 0",
+            });
+          }
+        });
+
+        exports.api = onRequest(app);
+11. Refactoring backend payment api without function(creating backend server without firebase function (optional))
+In this case backend and frontend folder must be treated separately
+steps
+ -create new backend folder out of project folder
+ - create index.js inside that folder
+ - initialize by npm init -yes (using terminal) 
+ - install dependencies 
+   - npm i express cors dotenv stripe
+ - create .env and save api key
+ - configure server setup in index.js 
+ - go to package.js and modify script :
+    add:    "start":"node index.js"
+    remove: "test": "echo \"Error: no test specified\" && exit 1"
+  then run on terminal by: npm start (no need of nodemon index.js)
+
+12. Building payment page UI
+- use to be render 
+  - signed user
+  - items in the basket (total items)
+  so that we have to use useContext to get user and basket data
+- payment method
+  - using stripe for react.js documentation
+  link: https://docs.stripe.com/sdks/stripejs-react
+install by opening terminal: 
+ npm install --save @stripe/react-stripe-js @stripe/stripe-js
+
+- import  these two method in Routing.jsx component
+  import {Elements} from '@stripe/react-stripe-js';
+  import {loadStripe} from '@stripe/stripe-js';
+- put your Public API key on variable stripePromise
+  i.e const stripePromise = loadStripe("public api key")
+- rap payment components rendered in Routing.jsx by Elements provider of stripe 
+ 
+i.e 
+  <Elements stripe={stripePromise} >
+    <Payment />
+ </Elements>
+  - this is allows us to use Element components and access the Stripe object
+13. Client side payment functionality
+ -To perform payment from client side the client secret key from backend should integrate with front side page.
+steps
+  - create functions that handles when client submit payment
+   - from backend || functions ---> contact to the client by client_secret
+   - from client side (react side confirmation)
+   - after the confirmation ---> (save data in order page & in firebase firestore database and navigate to order page ( after paid))
+  -use axios to connect backend and frontend (to send request & response)
+    install npm i axios
+  link: 
+    https://www.npmjs.com/package/axios
+    https://axios-http.com/docs/intro
+ Firestore setup
+ - go to build click on firestore database
+ - click on Create database
+ - use default ID as it is -then  Next
+ - choice Start in Test mode
+ - click on Enable 
+14. route protection
+ - this is used to protect unsigned user to navigate  payment page and order page
+ - dynamic navigation of payment page and then order page
+ - for this create protectedRoute.jsx component to manage route protection
+   - it uses useContext to get user data
+   - if no user navigate toAuthentication to sign in using useEffect hooks and proceed to payment then  can access order Items.  
+ - raping any react components by this component
+   - rap payment and order component by this component
+   - make the navigation in signUp dynamic using useLocation hooks
+15. order page UI 
+ - contact db to get data from firestore database
+ - get user and basket data from useContext
+ -  if user sign in fetch items data from database using useEffect and store in state (using useState).
+ - render fetched data from database to this order page.
+16. backend deployment/firebase-function
+ - front-end depend on backend so that we should deploy backend first and then using backend url for frontend (changed url after deployed) we gonna deploy frontend as well.
+ - change local url of backend to deployed version url for frontend
+ 1. function 
+ steps
+  - cd function - make sure you are in function folder
+  - firebase login - make sure you are logged in
+  - npm run deploy
+  - fix problem 1. - go to firebase function
+  - change  Spark to Blaze by upgrading
+    - upgrade - select Blaze - continue
+    - setup billing profile and confirmation
+ - fix problem 2. - go to firebase function
+   - add to index.js - setGlobalOptions({maxInstance:10})
+  and redeploy
+ 2. Deployment(backend server (optional)) using render 
+   First before deploy the following steps should be completed
+    - cd amazon-api (make sure you are on backend folder)
+    - add .gitignore  and save--->  .env & node_modules
+    - push to github
+      check if git initiate or not -ls -la
+    - create repository in Github 
+    - git init
+    - git add . 
+    - git commit -m "comment"
+    - git branch -M main
+    - git remote add origin url
+    - git push -u origin main
+  Deploying steps using render
+   link: https://render.com/
+  steps
+    - get started 
+    - create account by github or google 
+    - new+
+    - web service
+    - Build and deploy from git repository
+    - next
+    - connect github
+    - choice project then connect
+    - under start command 
+       $node index.js --> make sure your entry point(index.js) check your project
+    - under environment variables (make sure to add)
+      key = STRIPE_KEY  & value = ?
+    - create web service 
+17. Frontend deployment by netlify
+  steps
+   - create account with netlify by github or google
+   - open and click on add new site
+     -import an existing project from github
+   - deploy with github
+   - Authenticate github 
+   - choice project from listed 
+   - under Build command
+     make sure to change: npm run build ---> CI="npm run build 
+    or check this link for more info
+    link: https://docs.netlify.com/configure-builds/troubleshooting-tips/
+   -under Publish directory 
+     make sure to check the following:
+    - dist for Vite 
+    - build for React-app
+   - deploy  
+Final amazon project backend documentation
+*****************************************
+
+  
+
+
+
+ 
+
+    
+
+ 
+
+
+
+
+
+
+
+
+
